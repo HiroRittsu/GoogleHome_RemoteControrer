@@ -11,25 +11,20 @@ raw_data変換
 */
 
 char *int2bin(int x) {
-	static char bin[5];
+	static char bin[4];
 	for (int i = 0; i < 4; ++i) {
 		bin[i] = ((x >> i) & 1 ) + '0';
 	}
-	printf("%s\n", bin );
 	return bin;
 }
 
-int* convert(char *hexs) {
-
-	for (int i = 0; i < BIT_NUMBER; ++i) {
-		printf("%c", hexs[i] );
-	}
-	printf("\n");
-
-	int* bits;
+void convert(char *hexs, char *bits) {
 	char table[] = "0123456789abcdef";
 	int ints[BIT_NUMBER];
 
+	printf("%s\n", hexs );
+
+	//16進数から10進数に変換
 	for (int i = 0; i < BIT_NUMBER; ++i) {
 		for (int t = 0; t < 16; ++t) {
 			if (hexs[i] == table[t]) {
@@ -38,17 +33,20 @@ int* convert(char *hexs) {
 			}
 		}
 	}
-
+	//10進数から２進数に変換
 	for (int i = 0; i < BIT_NUMBER; ++i) {
-		int target_int = ints[i];
-		int2bin(target_int);
+		char *tmp = int2bin(ints[i]);
+		for (int c = 0; c < 4; ++c) {
+			*bits = tmp[c];
+			++bits;
+		}
 	}
-	return bits;
 }
 
 
 int main(int argc, char const *argv[]) {
-	convert("aaa5fc0110112200800a004e1");
-	//int2bin(15);
+	static char bits[BIT_NUMBER];
+	convert("aaa5fc0110112200800a004e1", bits);
+	printf("%s\n", bits );
 	return 0;
 }
