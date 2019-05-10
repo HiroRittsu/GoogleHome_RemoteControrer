@@ -1,9 +1,4 @@
-import matplotlib.pyplot as plt
-import numpy as np
-
-
 def convert_bit(raw_list: list):
-	table = {'350': '300', '650': '600', '1550': '1600', '550': '600'}
 	bits = ''
 	for i in range(len(raw_list)):
 		if i == 0 or i == 1:
@@ -15,10 +10,19 @@ def convert_bit(raw_list: list):
 			else:
 				bits += '0'
 
-		if (i - 1) % 16 == 0:
-			bits += ' '
+	# if (i - 1) % 16 == 0:
+	# bits += ' '
 
 	return bits
+
+
+def convert_hex(bits: str):
+	hexs = ''
+	bits = bits.replace(' ', '')
+	for i in range(0, len(bits) - 3, 4):
+		hexs += hex(int(bits[i:i + 4][::-1], 2)).replace('0x', '')
+
+	return hexs
 
 
 def main():
@@ -26,7 +30,7 @@ def main():
 	raw_data_list = list(raw_data.replace(' ', '').split(','))
 	bits = convert_bit(raw_data_list)
 
-	print(bits)
+	print(convert_hex(bits))
 
 
 if __name__ == '__main__':
