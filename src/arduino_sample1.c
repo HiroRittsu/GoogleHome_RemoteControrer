@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
 #define HEX_NUMBER 25
 #define BIT_NUMBER 100
@@ -14,7 +14,8 @@ raw_data変換
 
 */
 
-char *int2bin(int x) {
+
+char* int2bin(int x) {
 	static char bin[4];
 	for (int i = 0; i < 4; ++i) {
 		bin[i] = ((x >> i) & 1 ) + '0';
@@ -22,7 +23,7 @@ char *int2bin(int x) {
 	return bin;
 }
 
-void convert(char *hexs, char *bits) {
+void convert(char* hexs, char* bits) {
 	char table[] = "0123456789abcdef";
 	int ints[HEX_NUMBER];
 
@@ -37,17 +38,15 @@ void convert(char *hexs, char *bits) {
 	}
 	//10進数から2進数に変換
 	for (int i = 0; i < HEX_NUMBER; ++i) {
-		char *tmp = int2bin(ints[i]);
+		char* tmp = int2bin(ints[i]);
 		for (int c = 0; c < 4; ++c) {
-			*bits = tmp[c];
-			++bits;
+			*bits++ = tmp[c];
 		}
 	}
 }
 
-void calc_error_detection(char *bits, char *error) {
+void calc_error_detection(char* bits, char* error) {
 
-	printf("%s\n", bits );
 	char result_bits[BIT_NUMBER];
 
 	for (int i = 0; i < BIT_NUMBER; ++i) result_bits[i] = bits[i];
@@ -77,19 +76,39 @@ void add_error_detection(char* bits) {
 	calc_error_detection(bits, error_detection);
 
 	for (int i = 0; i < 4; ++i) bits[BIT_NUMBER + i] = error_detection[i];
-
 }
 
+void generate_ir_data(unsigned int* rawData, char* bits, int* times) {
+	*rawData++ = times[0];
+	*rawData++ = times[1];
+	for (int i = 0; i < BIT_NUMBER + 4; ++i) {
+		*rawData++ = times[2];
+		if (bits[i] == '0')
+			*rawData++ = times[3];
+		else
+			*rawData++ = times[4];
+	}
+	*rawData = times[2];
+}
+
+void aircon_data(char* hexs, unsigned int  *rawData) {
+	//printf("%d\n", (int)strlen(hexs));
+	static char bits[BIT_NUMBER + 4];
+	int times[] = {3750, 2050, 300, 600, 1600};
+	convert(hexs, bits);
+	add_error_detection(bits);
+	generate_ir_data(rawData, bits, times);
+}
 
 int main(int argc, char const *argv[]) {
 
-	static char bits[BIT_NUMBER + 4];
+	unsigned int  rawData[211];
 
-	convert("aaa5fc0110112200800a004e1", bits);
-	add_error_detection(bits);
+	aircon_data("aaa5fc0110112200800a004e1", rawData);
 
-	printf("%s\n", bits );
-
+	for (int i = 0; i < 211; ++i) {
+		printf("%d,", rawData[i] );
+	}
 
 	return 0;
 }
