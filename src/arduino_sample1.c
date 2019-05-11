@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 
 /*
@@ -17,9 +16,7 @@ int size(char* array) {
 
 char* int2bin(int x) {
 	static char bin[4];
-	for (int i = 0; i < 4; ++i) {
-		bin[i] = ((x >> i) & 1 ) + '0';
-	}
+	for (int i = 0; i < 4; ++i) bin[i] = ((x >> i) & 1 ) + '0';
 	return bin;
 }
 
@@ -82,16 +79,16 @@ unsigned int* generate_ir_data(char* bits, int* times) {
 		else
 			*rawData++ = times[4];
 	}
-	*rawData = times[2];
-	rawData -= ((size(bits) + 2) * 2 - 2);
+	*rawData++ = times[2];
+	*rawData = 0;
+	rawData -= ((size(bits) + 2) * 2 - 1);
 	return rawData;
 }
 
-unsigned int*  aircon_data(char* hexs) {
+unsigned int* aircon_data(char* hexs) {
 	char* bits = (char *)malloc((size(hexs) * 4 + 4) * sizeof(char));
 	int times[] = {3750, 2050, 300, 600, 1600};
 	unsigned int* rawData;
-
 	convert(hexs, bits);
 	add_error_detection(bits, "10001");
 	rawData = generate_ir_data(bits, times);
@@ -99,11 +96,20 @@ unsigned int*  aircon_data(char* hexs) {
 	return rawData;
 }
 
+unsigned int* light_data(char* hexs) {
+	char* bits = (char *)malloc((size(hexs) * 4 + 4) * sizeof(char));
+	int times[] = {3500, 1750, 400, 400, 1300};
+	unsigned int* rawData;
+	convert(hexs, bits);
+	rawData = generate_ir_data(bits, times);
+	printf("%s\n", bits );
+	return rawData;
+}
+
 int main(int argc, char const *argv[]) {
 	unsigned int*  rawData;
-	rawData = aircon_data("aaa5fc0110112200800a004e1");
-	for (int i = 0; i < 211; ++i) {
-		printf("%d,", rawData[i] );
-	}
+	rawData = aircon_data("aaa5fc0180122200800a004e1");
+	//rawData = light_data("c22590d242");
+	while (*rawData != 0) printf("%d,", *rawData++);
 	return 0;
 }
