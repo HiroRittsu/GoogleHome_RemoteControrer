@@ -41,8 +41,9 @@ void convert(char* hexs, char* bits) {
 	}
 }
 
-void calc_error_detection(char* bits, char* error, char* divisor) {
+char* calc_error_detection(char* bits, char* divisor) {
 	char* result_bits = (char *)malloc(size(bits) * sizeof(char));
+	char* error = (char *)malloc(size(divisor) * sizeof(char));
 	for (int i = 0; i < size(bits); ++i) result_bits[i] = bits[i];
 	for (int divisor_target = 0; divisor_target < size(bits) - 4; ++divisor_target) {
 		if (result_bits[divisor_target] == '0') continue;
@@ -55,13 +56,18 @@ void calc_error_detection(char* bits, char* error, char* divisor) {
 			}
 		}
 	}
-	for (int i = 0; i < 4; ++i) error[i] = result_bits[size(bits) - 4 + i];
+	for (int i = 0; i < 4; ++i) {
+		error[i] = result_bits[size(bits) - 4 + i];
+		error[i + 1] = '\0';
+	}
+	return error;
 }
 
 
 void add_error_detection(char* bits, char* divisor) {
-	char error_detection[4];
-	calc_error_detection(bits, error_detection, divisor);
+	char* error_detection;
+	error_detection = calc_error_detection(bits, divisor);
+	printf("%s\n", error_detection );
 	for (int i = 0; i < 5; ++i) {
 		bits[size(bits)] = error_detection[i];
 		bits[size(bits) + 1] = '\0';
@@ -109,7 +115,20 @@ unsigned int* light_data(char* hexs) {
 int main(int argc, char const *argv[]) {
 	unsigned int*  rawData;
 	rawData = aircon_data("aaa5fc0180122200800a004e1");
+	
 	//rawData = light_data("c22590d242");
 	while (*rawData != 0) printf("%d,", *rawData++);
+	/*
+	printf("\n");
+	char test[] = "aaa5fc0010112200800a004e1";
+	printf("%s\n", test );
+	test[7] = '0' + 1;
+	printf("%s\n", test );
+
+	unsigned int irSignal[] = {3750, 2050, 300, 600, 300, 1600, 300, 600, 300, 1600, 300, 600, 300, 1600, 300, 600, 300, 1600, 300, 600, 300, 1600, 300, 600, 300, 1600, 300, 1600, 300, 600, 300, 1600, 300, 600, 300, 1600, 300, 1600, 300, 1600, 300, 1600, 300, 600, 300, 600, 300, 1600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 600, 300, 1600, 300, 1600, 300, 1600, 300, 1600, 300, 600, 300, 600, 300, 600, 300, 1600, 300, 600, 300, 1600, 300, 600, 300}; //AnalysIR Batch Export (IRremote) - RAW
+
+	printf("%ld\n", sizeof(irSignal) / sizeof(irSignal[0]) );
+	*/
+
 	return 0;
 }
