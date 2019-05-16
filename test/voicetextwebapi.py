@@ -6,22 +6,11 @@ import requests
 # config
 # ===========================================
 # Docomo 音声合成 API
-API_KEY = '6855693376564975533566726e496d352f4e767267566954594339757a4e37702e6665464546744b616e33'
-url = "https://api.apigw.smt.docomo.ne.jp/aiTalk/v1/textToSpeech?APIKEY=" + API_KEY
-
+API_KEY = 'mrltjhlqwe5mki19'
+url = "https://" + API_KEY + ":@api.voicetext.jp/v1/tts"
 # aitalk パラメーター設定
 # ===========================================
-
-"""
-参考）音声合成 | docomo Developer support
-https://dev.smt.docomo.ne.jp/?p=docs.api.page&api_name=text_to_speech&p_name=api_1#tag01
-
-    'speaker' : "nozomi"、"seiji"、"akari"、"anzu"、"hiroshi"、"kaho"、"koutarou"、"maki"、"nanako"、"osamu"、"sumire"
-    'pitch' : ベースライン・ピッチ。 基準値:1.0、範囲:0.50～2.00
-    'range' : ピッチ・レンジ。基準値:1.0、範囲:0.00～2.00
-    'rate' : 読み上げる速度。基準値:1.0、範囲:0.50～4.00
-    'volume' : 音量。基準値:1.0、範囲:0.00～2.00
-"""
+"&speaker=hikari&volume=200&speed=120&format=mp3"
 
 prm = {
 	'speaker': 'maki',
@@ -53,9 +42,10 @@ xml = xml.encode("UTF-8")
 print("Start API")
 print(xml)
 
+print(url)
 response = requests.post(
 	url,
-	data=xml,
+	data="&speaker=hikari&volume=200&speed=120&format=mp3",
 	headers={
 		'Content-Type': 'application/ssml+xml',
 		'Accept': 'audio/L16',

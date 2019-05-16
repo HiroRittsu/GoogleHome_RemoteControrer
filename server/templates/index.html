@@ -1,0 +1,52 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <p>{{ message }}</p><br>
+    <a href=https://miglya-google-home-server.serveo.net/help>使い方はこちら</a>
+<form method="GET" action="textToSpeech">
+<p>
+  <label>喋らせる文章：</label>
+  <input type="text" name="text" />
+</p>
+<p>
+  <label>キャラ：</label>
+  <input type="radio" name="speaker" value="nozomi" checked>のぞみ
+  <input type="radio" name="speaker" value="seiji">せいじ
+  <input type="radio" name="speaker" value="akira">あきら
+  <input type="radio" name="speaker" value="anzu">あんず
+  <input type="radio" name="speaker" value="hiroshi">ひろし
+  <input type="radio" name="speaker" value="kaho">かほ
+  <input type="radio" name="speaker" value="koutarou">こうたろう
+  <input type="radio" name="speaker" value="maki">まき
+  <input type="radio" name="speaker" value="nanako">ななこ
+  <input type="radio" name="speaker" value="osamu">おさむ
+  <input type="radio" name="speaker" value="sumire">すみれ
+</p>
+<p>
+  <label>ピッチ：</label>
+  <input type="text" name="pitch" />
+</p>
+<p>
+  <label>レンジ：</label>
+  <input type="text" name="range" />
+</p>
+<p>
+  <label>速度：</label>
+  <input type="text" name="rate" />
+</p>
+<p>
+  <label>音量：</label>
+  <input type="text" name="volume" />
+</p>
+<input type="submit" value="送信" />
+</form>
+</body>
+
+
+
+
