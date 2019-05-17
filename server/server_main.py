@@ -16,10 +16,11 @@ ini_file.read('./token.ini')
 API_KEY = ini_file.get('token', 'API_KEY')
 url = "https://api.apigw.smt.docomo.ne.jp/aiTalk/v1/textToSpeech?APIKEY=" + API_KEY
 
-HOST = "192.168.11.3"
+# HOST = "192.168.11.3"
+HOST = "172.31.152.166"
 
-
-# HOST = "127.0.0.1"
+ship_data = {}
+voice_keys = []
 
 
 def picked_up():
@@ -30,6 +31,13 @@ def picked_up():
 	]
 	# NumPy の random.choice で配列からランダムに取り出し
 	return np.random.choice(messages)
+
+
+def read_ship():
+	for ship in np.loadtxt('./data/kc_ships.csv', delimiter=',', dtype='str'):
+		ship_data.setdefault(ship[1], [ship[0], ship[2]])
+	for key in np.loadtxt('./data/voice_key.csv', delimiter=',', dtype='int'):
+		voice_keys.append(key)
 
 
 def docomo_api_voice(prm):
@@ -108,6 +116,17 @@ def get_voice(args):
 	return url
 
 
+def get_kc_time_voice_url(ship_name: str, voice_key: int):
+	print(ship_name)
+	ship = ship_data[ship_name]
+	voice_id = calc_kc_voice_id(int(ship[0]), voice_key)
+	return "http://203.104.209.71/kcs/sound/kc" + ship[1] + "/" + str(voice_id) + ".mp3"
+
+
+def calc_kc_voice_id(ship_id: int, voice_key: int):
+	return int(((ship_id + 7) * 17 * voice_key) % 99173) + 100000
+
+
 @app.route('/')
 def index():
 	title = "ようこそ"
@@ -129,7 +148,7 @@ def help():
 
 @app.route('/textToSpeech')
 def response():
-	return get_voice(request.args), 200
+	return get_voice(request.args)
 
 
 @app.route('/media/<path:path>')
@@ -144,10 +163,13 @@ def time_report(path):
 	return time_report[int(path)]
 
 
-@app.route('/timeReportKC/<path:path>')
-def timeReportKC(path):
-	pass
+@app.route('/timeReportKC')
+def timeReportKC():
+	ships = ["ヴェールヌイ", "金剛改二", "比叡改二", "夕張", "夕立改二"]
+	url = get_kc_time_voice_url(np.random.choice(ships), voice_keys[int(request.args.get('time'))])
+	return url
 
 
 if __name__ == '__main__':
-	app.run(debug=False, host=HOST, port=2000)
+	read_ship()
+	app.run(debug=False, host=HOST, port=8000)
