@@ -16,8 +16,10 @@ ini_file.read('./token.ini')
 API_KEY = ini_file.get('token', 'API_KEY')
 url = "https://api.apigw.smt.docomo.ne.jp/aiTalk/v1/textToSpeech?APIKEY=" + API_KEY
 
-# HOST = "192.168.11.3"
-HOST = "127.0.0.1"
+HOST = "192.168.11.3"
+
+
+# HOST = "127.0.0.1"
 
 
 def picked_up():
@@ -140,6 +142,11 @@ def time_report(path):
 	file_name = np.random.choice(['./data/time_report_list_yukari.csv', './data/time_report_list_maki.csv'])
 	time_report = np.loadtxt(file_name, delimiter='\n', dtype='str')
 	return time_report[int(path)]
+
+
+@app.route('/timeReportKC/<path:path>')
+def timeReportKC(path):
+	pass
 
 
 if __name__ == '__main__':
