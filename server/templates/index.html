@@ -1,52 +1,35 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="jp">
-<head>
+  <head>
     <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
-    <p>{{ message }}</p><br>
-    <a href=https://miglya-google-home-server.serveo.net/help>使い方はこちら</a>
-<form method="GET" action="textToSpeech">
-<p>
-  <label>喋らせる文章：</label>
-  <input type="text" name="text" />
-</p>
-<p>
-  <label>キャラ：</label>
-  <input type="radio" name="speaker" value="nozomi" checked>のぞみ
-  <input type="radio" name="speaker" value="seiji">せいじ
-  <input type="radio" name="speaker" value="akira">あきら
-  <input type="radio" name="speaker" value="anzu">あんず
-  <input type="radio" name="speaker" value="hiroshi">ひろし
-  <input type="radio" name="speaker" value="kaho">かほ
-  <input type="radio" name="speaker" value="koutarou">こうたろう
-  <input type="radio" name="speaker" value="maki">まき
-  <input type="radio" name="speaker" value="nanako">ななこ
-  <input type="radio" name="speaker" value="osamu">おさむ
-  <input type="radio" name="speaker" value="sumire">すみれ
-</p>
-<p>
-  <label>ピッチ：</label>
-  <input type="text" name="pitch" />
-</p>
-<p>
-  <label>レンジ：</label>
-  <input type="text" name="range" />
-</p>
-<p>
-  <label>速度：</label>
-  <input type="text" name="rate" />
-</p>
-<p>
-  <label>音量：</label>
-  <input type="text" name="volume" />
-</p>
-<input type="submit" value="送信" />
-</form>
-</body>
-
-
-
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href=https://stitches.hyperyolo.com/output.css rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css" />
+    <link href=https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800,900 rel="stylesheet">
+    <link rel="stylesheet" href=https://use.fontawesome.com/releases/v5.6.3/css/all.css integrity=sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/ crossorigin="anonymous">
+    <title>Rione-Server</title>
+  </head>
+  <body><section class="my-8 font-sans container m-auto max-w-xl ">
+  <div class="text-center">
+    <h1 class="my-4 font-medium">Rione-Server</h1>
+    <p class="leading-normal mb-4 max-w-sm m-auto">Rioneの鯖管じゃない人が勝手に立てたサーバーです。<br>興味がある人は遊んでみましょう。</p>
+  </div>
+  
+  <div class="flex flex-col sm:flex-row flex-wrap my-8">
+    <div class="DivLink w-full sm:w-1/2 md:w-1/2 flex flex-col items-center justify-center h-48 md:h-64 border-grey-lightest border-r border-b hover:shadow-md hover:border-0 bg-white hover:transform-scale-subtle transition-normal hover:show-child">
+      <div class="w-12 h-12 rounded-full bg-grey-light" alt=""></div>
+      <h3 class="mt-4 mb-1">docomoAPI-音声合成-</h3>
+      <p class="mt-4 text-center text-grey-dark leading-normal px-6 hidden hover:block">Docomoが提供しているAPIを利用して、音声を合成してみましょう。</p>
+      <a class ="Link" href="https://www.ipentec.com"></a>
+    </div>
+    
+    <div class="DivLink w-full sm:w-1/2 md:w-1/2 flex flex-col items-center justify-center h-48 md:h-64 p-8  border-grey-lightest border-r border-b hover:shadow-md hover:border-0 bg-white hover:transform-scale-subtle transition-normal hover:show-child">
+      <div class="w-12 h-12 rounded-full bg-grey-light" alt=""></div>
+      <h3 class="mt-4 mb-1">艦これ時報</h3>
+      <p class="mt-4 text-center text-grey-dark leading-normal hidden hover:block">艦隊コレクションの艦娘たちの時報を本家から取得できます。</p>
+      <a class ="Link" href="https://www.ipentec.com"></a>
+    </div>
+  </div>
+</section></body>
+</html>

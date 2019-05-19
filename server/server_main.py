@@ -16,8 +16,8 @@ ini_file.read('./token.ini')
 API_KEY = ini_file.get('token', 'API_KEY')
 url = "https://api.apigw.smt.docomo.ne.jp/aiTalk/v1/textToSpeech?APIKEY=" + API_KEY
 
-# HOST = "192.168.11.3"
-HOST = "172.31.152.166"
+HOST = "192.168.11.9"
+#HOST = "127.0.0.1"
 
 ship_data = {}
 voice_keys = []
