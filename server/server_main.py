@@ -59,20 +59,21 @@ def docomo_api_voice(prm):
 	# ===========================================
 	xml = u'<?xml version="1.0" encoding="utf-8" ?>'
 	voice = '<voice name="' + prm["speaker"] + '">'
-	prosody = '<prosody rate="' + prm['rate'] + '" pitch="' + prm['pitch'] + '" range="' + prm['range'] + '">'
-	xml += '<speak version="1.1">' + voice + prosody + prm['text'] + '</prosody></voice></speak>'
+	prosody = '<prosody rate="' + str(prm['rate']) + '" pitch="' + str(prm['pitch']) + '" range="' + str(prm['range']) + '">'
+	xml += '<speak version="1.1">' + voice + prosody + str(prm['text']) + '</prosody></voice></speak>'
 	# utf-8にエンコード
 	xml = xml.encode("UTF-8")
 
 	print(xml)
-
+	print(len(xml))
+	
 	response = requests.post(
 		url,
 		data=xml,
 		headers={
 			'Content-Type': 'application/ssml+xml',
 			'Accept': 'audio/L16',
-			'Content-Length': len(xml)
+			'Content-Length': str(len(xml))
 		}
 	)
 
@@ -123,7 +124,7 @@ def get_voice(args):
 	print(text)
 
 	media_name = docomo_api_voice(prm)
-	url = "http://" + HOST + ":2000/media/" + media_name
+	url = "http://" + HOST + ":8000/media/" + media_name
 	return url
 
 
@@ -154,7 +155,7 @@ def help():
 		   "    rate   : 読み上げる速度。基準値:1.0、範囲:0.50～4.00<br>" \
 		   "  volume   : 音量。基準値:1.0、範囲:0.00～2.00<br>" \
 		   "    text   : 読み上げるテキスト<br>" \
-		   " (example) : http://" + HOST + ":2000/textToSpeech?speaker='sumire'&pitch=1&range='1.04'&rate='1.3'&volume='2'&text='朝だよ―'"
+		   " (example) : http://" + HOST + ":8000/textToSpeech?speaker='sumire'&pitch=1&range='1.04'&rate='1.3'&volume='2'&text='朝だよ―'"
 
 
 @app.route('/textToSpeech')
