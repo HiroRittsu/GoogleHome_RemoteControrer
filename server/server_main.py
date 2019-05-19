@@ -16,8 +16,8 @@ ini_file.read('./token.ini')
 API_KEY = ini_file.get('token', 'API_KEY')
 url = "https://api.apigw.smt.docomo.ne.jp/aiTalk/v1/textToSpeech?APIKEY=" + API_KEY
 
-HOST = "192.168.11.9"
-#HOST = "127.0.0.1"
+# HOST = "192.168.11.9"
+HOST = "127.0.0.1"
 
 ship_data = {}
 voice_keys = []
@@ -33,11 +33,22 @@ def picked_up():
 	return np.random.choice(messages)
 
 
+def read_csv(path):
+	with open(path) as f:
+		for line in f.readlines():
+			data = line.replace('\n', '').split(',')
+			ship_data.setdefault(data[1], [data[0], data[2]])
+
+
 def read_ship():
-	for ship in np.loadtxt('./data/kc_ships.csv', delimiter=',', dtype='str'):
-		ship_data.setdefault(ship[1], [ship[0], ship[2]])
-	for key in np.loadtxt('./data/voice_key.csv', delimiter=',', dtype='int'):
-		voice_keys.append(key)
+	with open('./data/kc_ships.csv') as f:
+		for line in f.readlines():
+			data = line.replace('\n', '').split(',')
+			ship_data.setdefault(data[1], [data[0], data[2]])
+
+	with open('./data/voice_key.csv') as f:
+		for key in f.read().split(','):
+			voice_keys.append(int(key))
 
 
 def docomo_api_voice(prm):
