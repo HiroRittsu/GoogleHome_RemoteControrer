@@ -54,6 +54,7 @@ def voice_text_api(text):
     }
     
     url = "https://" + API_KEY + ":@api.voicetext.jp/v1/tts"
+    print(url)
     
     post_response = requests.post(url, params=payload, auth=(API_KEY, ''))
     
