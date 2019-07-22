@@ -12,6 +12,7 @@ def convert_bit(raw_list: list):
 
 	# if (i - 1) % 16 == 0:
 	# bits += ' '
+	print(bits)
 
 	return bits
 
