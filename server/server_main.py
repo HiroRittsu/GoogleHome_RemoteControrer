@@ -51,7 +51,7 @@ def voice_text_api(text):
         'emotion_level': '1',
         'pitch': '130',
         'speed': '110',
-        'volume': '150'
+        'volume': '200'
     }
     
     url = "https://" + API_KEY + ":@api.voicetext.jp/v1/tts"
