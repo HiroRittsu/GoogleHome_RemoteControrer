@@ -33,7 +33,7 @@ def read_ship():
         for line in f.readlines():
             data = line.replace('\n', '').split(',')
             ship_data.setdefault(data[1], [data[0], data[2]])
-    
+
     with open('./data/voice_key.csv') as f:
         for key in f.read().split(','):
             voice_keys.append(int(key))
@@ -43,7 +43,7 @@ def voice_text_api(text):
     media_dir = './media/'
     shutil.rmtree(media_dir)
     os.mkdir(media_dir)
-    
+
     payload = {
         'text': text,
         'speaker': 'haruka',
@@ -53,26 +53,26 @@ def voice_text_api(text):
         'speed': '110',
         'volume': '200'
     }
-    
+
     url = "https://" + API_KEY + ":@api.voicetext.jp/v1/tts"
-    
+
     post_response = requests.post(url, params=payload, auth=(API_KEY, ''))
-    
+
     if post_response.status_code != 200:
         print("Error API : " + post_response.status_code)
         exit()
     else:
         print("Success API")
-    
+
     now = datetime.datetime.now()
     tstr = datetime.datetime.strftime(now, '%Y%m%d-%H%M%S')
-    
+
     # バイナリデータを保存
     wav_name = tstr + '.wav'
     fp = open(media_dir + wav_name, 'wb')
     fp.write(post_response.content)
     fp.close()
-    
+
     return wav_name
 
 
@@ -112,6 +112,11 @@ def time_report_kc():
     ships = ["ヴェールヌイ", "金剛改二", "比叡改二", "夕張", "夕立改二"]
     request_url = get_kc_time_voice_url(np.random.choice(ships), voice_keys[int(request.args.get('time'))])
     return request_url
+
+
+@app.route('/checkStatus')
+def check_status():
+    return "ok"
 
 
 if __name__ == '__main__':
