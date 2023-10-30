@@ -29,18 +29,18 @@ def read_csv(path):
 
 
 def read_ship():
-    with open('data/kc_ships.csv') as f:
+    with open('../data/kc_ships.csv') as f:
         for line in f.readlines():
             data = line.replace('\n', '').split(',')
             ship_data.setdefault(data[1], [data[0], data[2]])
 
-    with open('data/voice_key.csv') as f:
+    with open('../data/voice_key.csv') as f:
         for key in f.read().split(','):
             voice_keys.append(int(key))
 
 
 def voice_text_api(text):
-    media_dir = 'media/'
+    media_dir = '../media/'
     shutil.rmtree(media_dir)
     os.mkdir(media_dir)
 
