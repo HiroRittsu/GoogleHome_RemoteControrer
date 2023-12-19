@@ -51,7 +51,7 @@ def main():
         :return:
         """
         print("v3", value)
-        if 16 < value[0] < 32:
+        if 16 < value[0] < 30:
             pass
         else:
             # 停止
@@ -65,7 +65,7 @@ def main():
         :return:
         """
         print("v4", value)
-        if 16 < value[0] < 32:
+        if 16 < value[0] < 30:
             pass
         else:
             # 停止

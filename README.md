@@ -7,3 +7,5 @@ curl "https://api.voicetext.jp/v1/tts" \
      -d "volume=200" \
      -d "emotion_level=4" \
      -d "speaker=haruka" | play -
+
+pip3 install blynk-library-python
