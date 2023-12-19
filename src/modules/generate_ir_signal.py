@@ -19,6 +19,24 @@ class GenerateIRSignal:
     def covert_str_bit(bit_data: str):
         return [int(x) for x in bit_data]
 
+    def koizumi_ceiling_light_alternate(self):
+        result_data = []
+        result_data.extend([9000, 4500])
+        result_data.extend(self.covert_str_bit("00000001011101101111000000001111"))
+        result_data.append(650)  # 終了ビット
+
+        encoded_data = self.encode_rle(np.asarray(result_data))
+        json_object = {
+            "khz": 38,
+            "base_time": 650,
+            "negative_time": 550,
+            "positive_time": 1600,
+            "comp_array": list(encoded_data[0].astype(str)),
+            "length_array": list(encoded_data[1].astype(str)),
+        }
+
+        return json.dumps(json_object)
+
     def sharp_air_conditioner(self, mode: int, temperature: int):
         """
         :param temperature:
@@ -72,5 +90,7 @@ class GenerateIRSignal:
 
 
 if __name__ == '__main__':
-    response = requests.get(f"http://192.168.10.106/raw_data?json={GenerateIRSignal().sharp_air_conditioner(0, 20)}")
+    response = requests.get(
+        f"http://192.168.10.106/raw_data?json={GenerateIRSignal().koizumi_ceiling_light_alternate()}")
+    # response = requests.get(f"http://192.168.10.106/raw_data?json={GenerateIRSignal().sharp_air_conditioner(0, 24)}")
     print(response.content)
